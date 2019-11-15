@@ -5,7 +5,7 @@
 import sys
 import paramiko
 
-host = "IP" #change this to the IP of the Machine you want to SSH into
+host = "10.1.1.154" #change this to the IP of the Machine you want to SSH into
 user = input("Username: ") 
 pswd = input("Password: ")
 
@@ -18,15 +18,18 @@ try:
 except Exception as e:
     print(e)
 else:
-    i = 1
+	i = 1
 
-    while (i == 1):
-        command = input("Command: ")
-        client.invoke_shell()
-        stdin,stdout,stderr = client.exec_command(command)
-        print(stdout.read())
+	while (i == 1):
+		try:
+			command = input("Command: ")
+			client.invoke_shell()
+			tdin,stdout,stderr = client.exec_command(command)
+			print(stdout.read())
+		except Exception as e:
+			print(e)
 
-        if command == "exit":
-            print("Goodbye " + user)
-            client.close()
-            break
+		if command == "exit":
+			print("Goodbye " + user)
+			client.close()
+			break
