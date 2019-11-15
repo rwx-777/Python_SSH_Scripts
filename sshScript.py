@@ -5,7 +5,7 @@
 import sys
 import paramiko
 
-host = "10.1.1.154" #change this to the IP of the Machine you want to SSH into
+host = "IP" #change this to the IP of the Machine you want to SSH into
 user = input("Username: ") 
 pswd = input("Password: ")
 
