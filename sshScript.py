@@ -17,11 +17,11 @@ client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 try:
     command = input("Command: ")
     while(command != "exit"):
-	client.connect(hostname=host,username=user,password=pswd)
-	#command = input("Command: ")
-	client.invoke_shell()
-	stdin, stdout, stderr = client.exec_command(command)
-	print(stdout.read())
+		client.connect(hostname=host,username=user,password=pswd)
+		#command = input("Command: ")
+		client.invoke_shell()
+		stdin, stdout, stderr = client.exec_command(command)
+		print(stdout.read())
 
 except Exception as e:
 	print("Connection Failed")
