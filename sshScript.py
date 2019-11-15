@@ -10,7 +10,7 @@ user = input("Username: ")
 pswd = input("Password: ")
 
 client = paramiko.SSHClient()
-client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+client.set_missing_host_key_policy(paramiko.AutoAddPolicy()) #Allow any host how can authenticate
 print("Connecting...")
 
 try:
@@ -24,7 +24,13 @@ else:
 		try:
 			command = input("Command: ")
 			client.invoke_shell()
-			tdin,stdout,stderr = client.exec_command(command)
+			stdin,stdout,stderr = client.exec_command(command)
+			''' Experimental Code (command requiring input)
+			if command[:4] == "sudo":
+				stdin.write(input("Password please: "))
+				client.invoke_shell()
+				print(stdout.read())
+			'''
 			print(stdout.read())
 		except Exception as e:
 			print(e)
