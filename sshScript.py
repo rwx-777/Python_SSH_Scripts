@@ -5,6 +5,8 @@
 import sys
 import paramiko
 
+paramiko.util.log_to_file("SSH_Script.log")
+
 host = "IP" #change this to the IP of the Machine you want to SSH into
 user = input("Username: ") 
 pswd = input("Password: ")
@@ -14,13 +16,14 @@ client.set_missing_host_key_policy(paramiko.AutoAddPolicy()) #Allow any host how
 print("Connecting...")
 
 try:
-    client.connect(hostname=host,username=user,password=pswd)
-except Exception as e:
-    print(e)
+	client.connect(hostname=host,username=user,password=pswd)
+	sftp = client.open_sftp()
+except Exception as e1:
+    print(e1)
 else:
-	i = 1
+	
 
-	while (i == 1):
+	while (True):
 		try:
 			command = input("Command: ")
 			client.invoke_shell()
@@ -32,10 +35,31 @@ else:
 				print(stdout.read())
 			'''
 			print(stdout.read())
-		except Exception as e:
-			print(e)
+		except Exception as e2:
+			print(e2)
 
 		if command == "exit":
 			print("Goodbye " + user)
+			sftp.close
 			client.close()
 			break
+		elif command == "download":
+			try:
+				filepath = input("Enter path to file: ")
+				localpath = input("Enter the path where you want to store it locally: ")
+				sftp.get(filepath,localpath)
+			except Exception as e3:
+				print(e3)
+			else:
+				print("File was downloaded succesfully to " + localpath)
+
+		elif command == "upload":
+			try:
+				upfilepath = input("Enter file path where you want to store it: ")
+				uplocalpath = input("Enter file path you want to upload: ")
+				sftp.put(uplocalpath,upfilepath)
+			except Exception as e4:
+				print(e4)
+			else:
+				print("File was succesfully put to " + upfilepath)
+				
